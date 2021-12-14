@@ -955,6 +955,14 @@
   dependencies:
     long-timeout "^0.1.1"
 
+"@tryghost/errors@1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.0.tgz#989f10434a17286e952b5a9434e50846ea4ad87c"
+  integrity sha512-80I7LmRgPQt380Bm/90hF8KPkkNqOFHF2T6oO+NXkLd+UTc1qLOfe6nZS17WD9glMmHrqv6IF8U1MjPMDa4VOQ==
+  dependencies:
+    lodash "^4.17.21"
+    uuid "^8.3.2"
+
 "@tryghost/errors@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.0.0.tgz#de7ad1a895cbdb48692e877727d8ed830f251285"
