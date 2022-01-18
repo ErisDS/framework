@@ -948,42 +948,12 @@
   dependencies:
     long-timeout "^0.1.1"
 
-<<<<<<< HEAD
-"@tryghost/errors@1.0.0":
-=======
-"@tryghost/debug@^0.1.10":
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/@tryghost/debug/-/debug-0.1.10.tgz#26d67921c3edd562c7d2bee136d04faefa99bb3c"
-  integrity sha512-OihGnKm/lGVB5wNDyykev7IbufmtxTGmiDMAttaG4d5jz1eK9f/1VQ9Zq+lIs0sIG3EM6q9J1iQq0BCCGGRGfg==
-  dependencies:
-    "@tryghost/root-utils" "^0.3.8"
-    debug "^4.3.1"
-
-"@tryghost/errors@^1.0.0":
->>>>>>> da44fa8 (express-test)
+"@tryghost/errors@1.0.0", "@tryghost/errors@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.0.0.tgz#de7ad1a895cbdb48692e877727d8ed830f251285"
   integrity sha512-w6PEPKGzYDfaNUbjueQ7bp5tyXLTiwa4aEF9tM7xOAhlDFgeHG1xxP5vOfJgEPS20B0ZEHkTGNdh4KJwLEN9yw==
   dependencies:
     lodash "^4.17.21"
-
-<<<<<<< HEAD
-"@tryghost/errors@^1.0.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@tryghost/errors/-/errors-1.2.0.tgz#989f10434a17286e952b5a9434e50846ea4ad87c"
-  integrity sha512-80I7LmRgPQt380Bm/90hF8KPkkNqOFHF2T6oO+NXkLd+UTc1qLOfe6nZS17WD9glMmHrqv6IF8U1MjPMDa4VOQ==
-  dependencies:
-    lodash "^4.17.21"
-    uuid "^8.3.2"
-=======
-"@tryghost/root-utils@^0.3.8":
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/@tryghost/root-utils/-/root-utils-0.3.8.tgz#41327ea11fb6882c74fea145692aeae7a28482de"
-  integrity sha512-/BSrsd3SAbVvRIkUhCT0NeAgl0+CELFoERrvghzl093ZO9R/P7BESvIXUOugGUviZfUUgJI52bcdq2xhW9APcw==
-  dependencies:
-    caller "^1.0.1"
-    find-root "^1.1.0"
->>>>>>> da44fa8 (express-test)
 
 "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.4"
@@ -1272,24 +1242,6 @@ c8@7.11.0:
     yargs "^16.2.0"
     yargs-parser "^20.2.7"
 
-c8@7.11.0:
-  version "7.11.0"
-  resolved "https://registry.yarnpkg.com/c8/-/c8-7.11.0.tgz#b3ab4e9e03295a102c47ce11d4ef6d735d9a9ac9"
-  integrity sha512-XqPyj1uvlHMr+Y1IeRndC2X5P7iJzJlEJwBpCdBbq2JocXOgJfr+JVfJkyNMGROke5LfKrhSFXGFXnwnRJAUJw==
-  dependencies:
-    "@bcoe/v8-coverage" "^0.2.3"
-    "@istanbuljs/schema" "^0.1.2"
-    find-up "^5.0.0"
-    foreground-child "^2.0.0"
-    istanbul-lib-coverage "^3.0.1"
-    istanbul-lib-report "^3.0.0"
-    istanbul-reports "^3.0.2"
-    rimraf "^3.0.0"
-    test-exclude "^6.0.0"
-    v8-to-istanbul "^8.0.0"
-    yargs "^16.2.0"
-    yargs-parser "^20.2.7"
-
 cacheable-request@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/cacheable-request/-/cacheable-request-6.1.0.tgz#20ffb8bd162ba4be11e9567d823db651052ca912"
@@ -1547,11 +1499,7 @@ debug@4.3.2:
   dependencies:
     ms "2.1.2"
 
-<<<<<<< HEAD
-debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
-=======
-debug@^4.3.3:
->>>>>>> da44fa8 (express-test)
+debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.3:
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.3.tgz#04266e0b70a98d4462e6e288e38259213332b664"
   integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
@@ -3205,36 +3153,6 @@ mkdirp@^0.5.1, mkdirp@~0.5.1:
   integrity sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==
   dependencies:
     minimist "^1.2.5"
-
-mocha@9.1.4:
-  version "9.1.4"
-  resolved "https://registry.yarnpkg.com/mocha/-/mocha-9.1.4.tgz#5a332d6ade6345b975fd97b5b39139854c8e1b32"
-  integrity sha512-+q2aV5VlJZuLgCWoBvGI5zEwPF9eEI0kr/sAA9Jm4xMND7RfIEyF8JE7C0JIg8WXRG+P1sdIAb5ccoHPlXLzcw==
-  dependencies:
-    "@ungap/promise-all-settled" "1.1.2"
-    ansi-colors "4.1.1"
-    browser-stdout "1.3.1"
-    chokidar "3.5.2"
-    debug "4.3.2"
-    diff "5.0.0"
-    escape-string-regexp "4.0.0"
-    find-up "5.0.0"
-    glob "7.1.7"
-    growl "1.10.5"
-    he "1.2.0"
-    js-yaml "4.1.0"
-    log-symbols "4.1.0"
-    minimatch "3.0.4"
-    ms "2.1.3"
-    nanoid "3.1.25"
-    serialize-javascript "6.0.0"
-    strip-json-comments "3.1.1"
-    supports-color "8.1.1"
-    which "2.0.2"
-    workerpool "6.1.5"
-    yargs "16.2.0"
-    yargs-parser "20.2.4"
-    yargs-unparser "2.0.0"
 
 mocha@9.1.4:
   version "9.1.4"

@@ -1,6 +1,6 @@
 // Switch these lines once there are useful utils
 // const testUtils = require('./utils');
-const agentProvider = require('../lib/express-test');
+const agentProvider = require('../lib/express-test-mock');
 const supertest = require('supertest');
 require('./utils');
 
