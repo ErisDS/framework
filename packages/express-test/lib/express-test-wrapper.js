@@ -55,60 +55,39 @@ function createResponse(resOptions) {
     return response;
 }
 
-class Agent {
-    constructor(app) {
-        this.app = app;
-    }
+module.exports.doRequest = function doRequest(reqOptions = {}, resOptions = {}) {
+    // const req = new Request(Object.assign({}, reqOptions, {app: this.app}));
+    // const res = new Response(Object.assign({}, resOptions, {app: this.app, req: req}));
 
-    _doRequest(reqOptions = {}, resOptions = {}) {
-        // const req = new Request(Object.assign({}, reqOptions, {app: this.app}));
-        // const res = new Response(Object.assign({}, resOptions, {app: this.app, req: req}));
+    const req = createRequest(Object.assign({}, reqOptions, {app: this.app}));
+    const res = createResponse(Object.assign({}, resOptions, {app: this.app, req: req}));
 
-        const req = createRequest(Object.assign({}, reqOptions, {app: this.app}));
-        const res = createResponse(Object.assign({}, resOptions, {app: this.app, req: req}));
+    // console.log(req, res);
 
-        // console.log(req, res);
+    return new Promise((resolve, reject) => {
+        try {
+            res.on('finish', () => {
+                console.log('finishing', res);
+                const statusCode = res.statusCode;
+                const headers = res.getHeaders();
+                const text = res.body;
+                let body = {};
 
-        return new Promise((resolve, reject) => {
-            try {
-                res.on('finish', () => {
-                    console.log('finishing', res);
-                    const statusCode = res.statusCode;
-                    const headers = res.getHeaders();
-                    const text = res.body;
-                    let body = {};
+                // if (isJSON(res.getHeader('Content-Type'))) {
+                //     body = text && JSON.parse(text);
+                // }
 
-                    // if (isJSON(res.getHeader('Content-Type'))) {
-                    //     body = text && JSON.parse(text);
-                    // }
+                console.log('doing resolve');
+                resolve({statusCode, headers, text, body, response: res});
+            });
 
-                    console.log('doing resolve');
-                    resolve({statusCode, headers, text, body, response: res});
-                });
+            res.on('error', (error) => {
+                console.log('error', error);
+            });
 
-                res.on('error', (error) => {
-                    console.log('error', error);
-                });
-
-                this.app(req, res);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
-
-    async get(urlPath) {
-        const reqOptions = {
-            method: 'GET',
-            url: urlPath
-        };
-
-        return await this._doRequest(reqOptions);
-    }
-}
-
-module.exports.getAgent = (app) => {
-    const agent = new Agent(app);
-
-    return agent;
+            this.app(req, res);
+        } catch (error) {
+            reject(error);
+        }
+    });
 };

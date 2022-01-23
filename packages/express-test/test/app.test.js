@@ -1,9 +1,9 @@
 // Switch these lines once there are useful utils
 // const testUtils = require('./utils');
-const mockProvider = require('../lib/express-test-mock');
-const wrappedProvider = require('../lib/express-test-wrapper');
-const reqresProvider = require('../lib/express-test-reqres');
+const agentProvider = require('../lib/agent');
+
 const supertest = require('supertest');
+
 require('./utils');
 
 const app = require('./fixtures/app');
@@ -11,7 +11,7 @@ const app = require('./fixtures/app');
 describe.only('Testing with our express mock', function () {
     let agent;
     before(function () {
-        agent = mockProvider.getAgent(app);
+        agent = agentProvider.getAgent(app, 'mock');
     });
 
     it('Simple string', async function () {
@@ -36,7 +36,7 @@ describe.only('Testing with our express mock', function () {
 describe('Testing with our express wrapper', function () {
     let agent;
     before(function () {
-        agent = wrappedProvider.getAgent(app);
+        agent = agentProvider.getAgent(app, 'wrapper');
     });
 
     it('Simple string', async function () {
@@ -61,7 +61,7 @@ describe('Testing with our express wrapper', function () {
 describe.only('Testing with reqresnext', function () {
     let agent;
     before(function () {
-        agent = reqresProvider.getAgent(app);
+        agent = agentProvider.getAgent(app, 'reqres');
     });
 
     it('Simple string', async function () {

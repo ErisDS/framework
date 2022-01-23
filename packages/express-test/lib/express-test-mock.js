@@ -1,20 +1,8 @@
 const httpMocks = require('node-mocks-http');
 const express = require('express');
-const agent = {};
+const {isJSON} = require('./utils');
 
-// borrowed from superagent
-function isJSON(mime) {
-// should match /json or +json
-    // but not /json-seq
-    return /[/+]json($|[^-\w])/i.test(mime);
-}
-
-module.exports.getAgent = (app) => {
-    agent.app = app;
-    return agent;
-};
-
-function doRequest(reqOptions = {}, resOptions = {}) {
+module.exports.doRequest = function doRequest(reqOptions = {}, resOptions = {}) {
     let data = null;
     const {req, res} = httpMocks.createMocks(reqOptions, resOptions);
 
@@ -28,7 +16,7 @@ function doRequest(reqOptions = {}, resOptions = {}) {
         return express.response.send.apply(res, arguments);
     }
 
-    return new Promise(function (resolve) {
+    return new Promise((resolve) => {
         res.send = send;
         res.json = json;
         res.end = function end() {
@@ -44,15 +32,6 @@ function doRequest(reqOptions = {}, resOptions = {}) {
             return resolve({statusCode, headers, text, body, response: res});
         };
 
-        agent.app(req, res);
+        this.app(req, res);
     });
-}
-
-agent.get = async (url, options) => {
-    const reqOptions = {
-        method: 'GET',
-        url
-    };
-
-    return await doRequest(reqOptions);
 };
