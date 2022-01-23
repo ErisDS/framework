@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/posts/:id/', async (req, res) => {
-    const response = await fs.readFile(path.join(__dirname, 'response.json'), {encoding: 'utf8'});
+    const response = await fs.readFile(path.join(__dirname, 'post.json'), {encoding: 'utf8'});
     const json = JSON.parse(response);
     res.send(json);
 });

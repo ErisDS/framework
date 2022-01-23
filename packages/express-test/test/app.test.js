@@ -28,8 +28,8 @@ describe.only('Testing with our express mock', function () {
 
         statusCode.should.eql(200);
         headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({id: 42});
-        text.should.eql('{"id":42}');
+        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
     });
 });
 
@@ -48,14 +48,14 @@ describe('Testing with our express wrapper', function () {
         text.should.eql('Hello World!');
     });
 
-    // it('JSON and params', async function () {
-    //     const {statusCode, headers, body, text} = await agent.get('/posts/42/');
+    it('JSON and params', async function () {
+        const {statusCode, headers, body, text} = await agent.get('/posts/42/');
 
-    //     statusCode.should.eql(200);
-    //     headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-    //     body.should.eql({id: 42});
-    //     text.should.eql('{"id":42}');
-    // });
+        statusCode.should.eql(200);
+        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
+    });
 });
 
 describe.only('Testing with reqresnext', function () {
@@ -77,9 +77,9 @@ describe.only('Testing with reqresnext', function () {
         const {statusCode, headers, body, text} = await agent.get('/posts/42/');
 
         statusCode.should.eql(200);
-        // headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({id: 42});
-        text.should.eql('{"id":42}');
+        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
     });
 });
 
