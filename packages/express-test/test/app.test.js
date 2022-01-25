@@ -8,88 +8,53 @@ require('./utils');
 
 const app = require('./fixtures/app');
 
-describe.only('Testing with our express mock', function () {
-    let agent;
-    before(function () {
-        agent = agentProvider.getAgent(app, 'mock');
-    });
+const agents = {
+    MockAgent: agentProvider.getAgent(app, 'mock'),
+    // WrappedAgent: agentProvider.getAgent(app, 'wrapper'),
+    ReqResAgent: agentProvider.getAgent(app, 'reqres')
+};
 
-    it('Simple string', async function () {
-        const {statusCode, headers, body, text} = await agent.get('/');
+Object.keys(agents).forEach((agentName) => {
+    let agent = agents[agentName];
+    describe(`Testing with ${agentName}`, function () {
+        it('Simple string', async function () {
+            const {statusCode, headers, body, text} = await agent.get('/');
 
-        statusCode.should.eql(200);
-        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({});
-        text.should.eql('Hello World!');
-    });
+            statusCode.should.eql(200);
+            headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+            body.should.eql({});
+            text.should.eql('Hello World!');
+        });
 
-    it('JSON and params', async function () {
-        const {statusCode, headers, body, text} = await agent.get('/posts/42/');
+        it('JSON and params', async function () {
+            const {statusCode, headers, body, text} = await agent.get('/posts/42/');
 
-        statusCode.should.eql(200);
-        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
-        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
-    });
-});
+            statusCode.should.eql(200);
+            headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+            body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+            text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
+        });
 
-describe('Testing with our express wrapper', function () {
-    let agent;
-    before(function () {
-        agent = agentProvider.getAgent(app, 'wrapper');
-    });
+        it('PUT JSON', async function () {
+            const {statusCode, headers, body, text} = await agent.put('/posts/42/', {
+                body: {posts: [{title: 'So long and thanks for all the fish.'}]}
+            });
 
-    it('Simple string', async function () {
-        const {statusCode, headers, body, text} = await agent.get('/');
-
-        statusCode.should.eql(200);
-        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({});
-        text.should.eql('Hello World!');
-    });
-
-    it('JSON and params', async function () {
-        const {statusCode, headers, body, text} = await agent.get('/posts/42/');
-
-        statusCode.should.eql(200);
-        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
-        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
-    });
-});
-
-describe.only('Testing with reqresnext', function () {
-    let agent;
-    before(function () {
-        agent = agentProvider.getAgent(app, 'reqres');
-    });
-
-    it('Simple string', async function () {
-        const {statusCode, headers, body, text} = await agent.get('/');
-
-        statusCode.should.eql(200);
-        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({});
-        text.should.eql('Hello World!');
-    });
-
-    it('JSON and params', async function () {
-        const {statusCode, headers, body, text} = await agent.get('/posts/42/');
-
-        statusCode.should.eql(200);
-        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
-        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
+            statusCode.should.eql(200);
+            headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+            body.should.eql({posts: [{id: 42, title: 'So long and thanks for all the fish.'}]});
+            text.should.eql('{"posts":[{"id":42,"title":"So long and thanks for all the fish."}]}');
+        });
     });
 });
 
 describe('Testing with supertest', function () {
-    let superagent;
+    let agent;
     before(function () {
-        superagent = supertest(app);
+        agent = supertest(app);
     });
     it('Simple string', async function () {
-        const {statusCode, headers, body, text} = await superagent.get('/');
+        const {statusCode, headers, body, text} = await agent.get('/');
 
         statusCode.should.eql(200);
         headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
@@ -98,11 +63,22 @@ describe('Testing with supertest', function () {
     });
 
     it('JSON and params', async function () {
-        const {statusCode, headers, body, text} = await superagent.get('/posts/42/');
+        const {statusCode, headers, body, text} = await agent.get('/posts/42/');
 
         statusCode.should.eql(200);
         headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-        body.should.eql({id: 42});
-        text.should.eql('{"id":42}');
+        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
+    });
+
+    it('PUT JSON', async function () {
+        const {statusCode, headers, body, text} = await agent
+            .put('/posts/42/')
+            .send({posts: [{title: 'So long and thanks for all the fish.'}]});
+
+        statusCode.should.eql(200);
+        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+        body.should.eql({posts: [{id: 42, title: 'So long and thanks for all the fish.'}]});
+        text.should.eql('{"posts":[{"id":42,"title":"So long and thanks for all the fish."}]}');
     });
 });
