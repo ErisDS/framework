@@ -9,7 +9,7 @@ require('./utils');
 const app = require('./fixtures/app');
 
 const agents = {
-    MockAgent: agentProvider.getAgent(app, 'mock'),
+    // MockAgent: agentProvider.getAgent(app, 'mock')
     // WrappedAgent: agentProvider.getAgent(app, 'wrapper'),
     ReqResAgent: agentProvider.getAgent(app, 'reqres')
 };
@@ -53,6 +53,29 @@ Object.keys(agents).forEach((agentName) => {
             headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
             body.should.eql({posts: [{id: 42, title: 'So long and thanks for all the fish.'}]});
             text.should.eql('{"posts":[{"id":42,"title":"So long and thanks for all the fish."}]}');
+        });
+
+        it('login', async function () {
+            const {statusCode, headers, body, text} = await agent.post('/login/', {
+                body: {
+                    username: 'hello',
+                    password: 'world'
+                }
+            });
+
+            statusCode.should.eql(200);
+            headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag', 'set-cookie');
+            body.should.eql({});
+            text.should.eql('OK');
+        });
+
+        it.skip('authenticated request', async function () {
+            const {statusCode, headers, body, text} = await agent.get('/api/posts/42/');
+
+            statusCode.should.eql(200);
+            headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+            body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+            text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
         });
     });
 });
