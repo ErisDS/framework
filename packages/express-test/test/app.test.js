@@ -35,6 +35,15 @@ Object.keys(agents).forEach((agentName) => {
             text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
         });
 
+        it('wrong param', async function () {
+            const {statusCode, headers, body, text} = await agent.get('/posts/404/');
+
+            statusCode.should.eql(404);
+            headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+            body.should.eql({});
+            text.should.eql('Not Found');
+        });
+
         it('PUT JSON', async function () {
             const {statusCode, headers, body, text} = await agent.put('/posts/42/', {
                 body: {posts: [{title: 'So long and thanks for all the fish.'}]}
@@ -69,6 +78,15 @@ describe('Testing with supertest', function () {
         headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
         body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
         text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
+    });
+
+    it('wrong param', async function () {
+        const {statusCode, headers, body, text} = await agent.get('/posts/404/');
+
+        statusCode.should.eql(404);
+        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+        body.should.eql({});
+        text.should.eql('Not Found');
     });
 
     it('PUT JSON', async function () {
