@@ -1,9 +1,11 @@
 const {CookieJar, CookieAccessInfo} = require('cookiejar');
 const {parse} = require('url');
 class Agent {
-    constructor(app) {
+    constructor(app, defaults = {}) {
         this.app = app;
         this.jar = new CookieJar();
+
+        this.defaults = defaults;
     }
 
     _getCookies(req) {
@@ -42,18 +44,25 @@ const getProvider = (type) => {
 const methods = ['get', 'put', 'post', 'delete'];
 
 methods.forEach(function (method) {
-    Agent.prototype[method] = async function (url, options) { // eslint-disable-line no-unused-vars
+    Agent.prototype[method] = async function (url, options = {}) { // eslint-disable-line no-unused-vars
+        if (this.defaults.baseUrl) {
+            url = `${this.defaults.baseUrl}/${url}`.replace(/(^|[^:])\/\/+/g, '$1/');
+        }
+
         const reqOptions = {
             method: method.toUpperCase(),
             url
         };
 
-        return await this._provider.doRequest.call(this, Object.assign(reqOptions, options), {});
+        reqOptions.headers = Object.assign({}, this.defaults.headers, options.headers);
+        reqOptions.body = Object.assign({}, this.defaults.body, options.body);
+
+        return await this._provider.doRequest.call(this, reqOptions, {});
     };
 });
 
-module.exports.getAgent = (app, type) => {
-    const agent = new Agent(app);
+module.exports.getAgent = (app, type, defaults) => {
+    const agent = new Agent(app, defaults);
 
     // This is totally temporary so don't pollute the constructor
     agent._provider = getProvider(type);
