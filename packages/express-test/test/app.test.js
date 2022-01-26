@@ -1,6 +1,6 @@
 // Switch these lines once there are useful utils
 // const testUtils = require('./utils');
-const agentProvider = require('../lib/agent');
+const agentProvider = require('../');
 
 const supertest = require('supertest');
 
