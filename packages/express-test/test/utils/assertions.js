@@ -10,6 +10,8 @@
 //     this.obj.should.be.an.Object;
 // });
 
-const {matchSnapshot} = require('./snapshot');
+const {matchSnapshotAssertion} = require('./snapshot');
 
-should.Assertion.add('matchSnapshot', matchSnapshot);
+should.Assertion.add('matchSnapshot', matchSnapshotAssertion);
+
+should.Assertion.add('matchHeaderSnapshot', matchSnapshotAssertion);

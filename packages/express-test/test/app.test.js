@@ -1,7 +1,7 @@
 // Switch these lines once there are useful utils
 // const testUtils = require('./utils');
 const agentProvider = require('../');
-
+const {any} = require('expect');
 const supertest = require('supertest');
 
 require('./utils');
@@ -29,9 +29,16 @@ Object.keys(agents).forEach((agentName) => {
         it.only('JSON and params', async function () {
             const {statusCode, headers, body, text} = await agent.get('/posts/42/');
 
-            body.should.matchSnapshot();
+            body.should.matchSnapshot({
+                posts: [{
+                    uuid: any(String)
+                }]
+            });
+            headers.should.matchSnapshot({
+                etag: any(String)
+            });
 
-            // statusCode.should.eql(200);
+            statusCode.should.eql(200);
             // headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
             // body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
             // text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');

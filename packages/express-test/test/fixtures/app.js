@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const uuid = require('uuid');
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.get('/posts/:id/', async (req, res) => {
 
     const response = await fs.readFile(path.join(__dirname, 'post.json'), {encoding: 'utf8'});
     const json = JSON.parse(response);
+    json.posts[0].uuid = uuid.v4();
     return res.json(json);
 });
 

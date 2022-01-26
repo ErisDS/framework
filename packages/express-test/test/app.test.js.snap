@@ -1,12 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Testing with ReqResAgent JSON and params 1`] = `
+exports[`Testing with ReqResAgent JSON and params 1 1`] = `
 Object {
   "posts": Array [
     Object {
       "id": 42,
       "title": "Hello World!",
+      "uuid": Any<String>,
     },
   ],
+}
+`;
+
+exports[`Testing with ReqResAgent JSON and params 2 1`] = `
+Object {
+  "content-length": "90",
+  "content-type": "application/json; charset=utf-8",
+  "etag": Any<String>,
+  "x-powered-by": "Express",
 }
 `;
