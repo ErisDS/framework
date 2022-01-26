@@ -9,3 +9,7 @@
 //     this.params = {operator: 'to be a valid Example Assertion'};
 //     this.obj.should.be.an.Object;
 // });
+
+const {matchSnapshot} = require('./snapshot');
+
+should.Assertion.add('matchSnapshot', matchSnapshot);

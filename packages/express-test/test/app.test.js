@@ -26,13 +26,15 @@ Object.keys(agents).forEach((agentName) => {
             text.should.eql('Hello World!');
         });
 
-        it('JSON and params', async function () {
+        it.only('JSON and params', async function () {
             const {statusCode, headers, body, text} = await agent.get('/posts/42/');
 
-            statusCode.should.eql(200);
-            headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
-            body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
-            text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
+            body.should.matchSnapshot();
+
+            // statusCode.should.eql(200);
+            // headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+            // body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+            // text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
         });
 
         it('wrong param', async function () {

@@ -32,6 +32,7 @@
   "dependencies": {
     "@tryghost/debug": "^0.1.10",
     "cookie-jar": "^0.3.0",
+    "jest-snapshot": "^27.4.6",
     "node-mocks-http": "^1.11.0"
   }
 }

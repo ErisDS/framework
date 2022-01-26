@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing with ReqResAgent JSON and params 1`] = `
+Object {
+  "posts": Array [
+    Object {
+      "id": 42,
+      "title": "Hello World!",
+    },
+  ],
+}
+`;
