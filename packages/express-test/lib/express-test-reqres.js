@@ -5,6 +5,8 @@ module.exports.doRequest = function doRequest(reqOptions = {}, resOptions = {}) 
     const req = new Request(Object.assign({}, reqOptions, {app: this.app}));
     const res = new Response(Object.assign({}, resOptions, {app: this.app, req: req}));
 
+    req.headers.cookie = this._getCookies(req);
+
     // Without this express errors when there is no matching route and finalHandler is called
     req.unpipe = () => {};
 
@@ -27,6 +29,8 @@ module.exports.doRequest = function doRequest(reqOptions = {}, resOptions = {}) 
             if (isJSON(res.getHeader('Content-Type'))) {
                 body = text && JSON.parse(text);
             }
+
+            this._saveCookies(res);
 
             resolve({statusCode, headers, text, body, response: res});
         });

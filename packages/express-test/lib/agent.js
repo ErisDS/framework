@@ -1,6 +1,29 @@
+const {CookieJar, CookieAccessInfo} = require('cookiejar');
+const {parse} = require('url');
 class Agent {
     constructor(app) {
         this.app = app;
+        this.jar = new CookieJar();
+    }
+
+    _getCookies(req) {
+        const url = parse(req.url);
+
+        const access = new CookieAccessInfo(
+            url.hostname,
+            url.pathname,
+            url.protocol === 'https:'
+        );
+
+        return this.jar.getCookies(access).toValueString();
+    }
+
+    _saveCookies(res) {
+        const cookies = res.getHeader('set-cookie');
+
+        if (cookies) {
+            this.jar.setCookies(cookies);
+        }
     }
 }
 

@@ -69,7 +69,7 @@ Object.keys(agents).forEach((agentName) => {
             text.should.eql('OK');
         });
 
-        it.skip('authenticated request', async function () {
+        it('authenticated request', async function () {
             const {statusCode, headers, body, text} = await agent.get('/api/posts/42/');
 
             statusCode.should.eql(200);

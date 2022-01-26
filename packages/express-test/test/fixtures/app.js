@@ -7,7 +7,7 @@ const fs = require('fs').promises;
 const path = require('path');
 
 const isLoggedIn = function (req, res, next) {
-    if (req.session.isLoggedIn) {
+    if (req.session.loggedIn) {
         return next();
     }
 
@@ -18,7 +18,9 @@ app.use(express.json());
 
 app.use(session({
     secret: 'verysecretstring',
-    name: 'testauth'
+    name: 'testauth',
+    resave: false,
+    saveUninitialized: false
 }));
 
 app.get('/', (req, res) => {
@@ -61,12 +63,11 @@ app.get('/logout', (req, res) => {
     res.sendStatus(200);
 });
 app.get('/api/posts/:id', isLoggedIn, async (req, res) => {
-    const json = getPost(req.params.id);
-
-    if (!json) {
+    if (req.params.id !== '42') {
         return res.sendStatus(404);
     }
-
+    const response = await fs.readFile(path.join(__dirname, 'post.json'), {encoding: 'utf8'});
+    const json = JSON.parse(response);
     return res.json(json);
 });
 
