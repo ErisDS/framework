@@ -83,7 +83,7 @@ Object.keys(agents).forEach((agentName) => {
 describe('Testing with supertest', function () {
     let agent;
     before(function () {
-        agent = supertest(app);
+        agent = supertest.agent(app);
     });
     it('Simple string', async function () {
         const {statusCode, headers, body, text} = await agent.get('/');
@@ -121,5 +121,27 @@ describe('Testing with supertest', function () {
         headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
         body.should.eql({posts: [{id: 42, title: 'So long and thanks for all the fish.'}]});
         text.should.eql('{"posts":[{"id":42,"title":"So long and thanks for all the fish."}]}');
+    });
+
+    it('login', async function () {
+        const {statusCode, headers, body, text} = await agent.post('/login/')
+            .send({
+                username: 'hello',
+                password: 'world'
+            });
+
+        statusCode.should.eql(200);
+        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag', 'set-cookie');
+        body.should.eql({});
+        text.should.eql('OK');
+    });
+
+    it('authenticated request', async function () {
+        const {statusCode, headers, body, text} = await agent.get('/api/posts/42/');
+
+        statusCode.should.eql(200);
+        headers.should.be.an.Object().with.properties('x-powered-by', 'content-type', 'content-length', 'etag');
+        body.should.eql({posts: [{id: 42, title: 'Hello World!'}]});
+        text.should.eql('{"posts":[{"id":42,"title":"Hello World!"}]}');
     });
 });
